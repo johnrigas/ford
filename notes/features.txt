@@ -1,0 +1,13 @@
+- offensive and defensive efficiency
+- home court advantage
+- officials advantage?
+- tempo
+- offensive and defensive efficiency in certain situations
+- sum of player offensive and defensive efficiencies that we expect to be playing in the game
+
+
+stats 
+- possessions =  (FGA – OR) + TO + (.44 * FTA)
+- game over ->  (margin - 3 + (.5 if has_ball else -.5))**2 > min_left*60 + second_left
+
+

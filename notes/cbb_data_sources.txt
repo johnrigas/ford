@@ -1,0 +1,62 @@
+
+analytics
+-kenpom
+-https://barttorvik.com/#
+
+betting
+-betmgm
+-fanduel
+-draftkings
+
+raw data (start with espn scraping)
+-espn
+-cbssports
+
+notes 
+-constantly calculating win probabilities and therefore expected value based on odds
+-win probabilities will need to include moneyline, spread, over/under, conference/tournament futures, correct score, weird props like 2 or more 3s, half bets, win margin bets, first score bets, race to bets 
+    -moneyline, spread, over/under likely with highest expected value but will see, good to have all models
+-figure out to automatically recognize and accept promos
+-use microcontroller + fpga for display
+-injury/suspension reports, etc
+- +190 implies 100 / (100 + 190) = 100 / 290 = 34.48%
+
+scraping schedule
+-espn play by play constantly during games when in betting mode
+-kenpom, analytics sites every few min during games
+-betting sites constantly when in betting mode
+
+questions
+-rely on play by play or box score
+
+live sportsbooks
+    Bally Bet
+    Bet365
+    Betfred
+    BetMGM Sportsbook
+    BetMonarch
+    BetRivers Sportsbook
+    Betsafe
+    Betway
+    Caesars Sportsbook
+    Circa Sports
+    ClutchBet
+    DraftKings Sportsbook
+    ESPN Bet
+    FanDuel Sportsbook
+    PointsBet
+    SBK Sportsbook
+    SI Sportsbook
+    SuperBook
+    Tipico Sportsbook
+
+aggregators
+-https://www.vegasinsider.com/college-basketball/odds/las-vegas/
+-https://www.donbest.com/ncaab/odds
+-https://www.thespread.com/ncaa-college-basketball-public-betting-chart/
+-https://pregame.com/game-center/206303/consensus-archive
+
+
+espn days to rerun
+- 2023-02-11
+- 2023-02-28

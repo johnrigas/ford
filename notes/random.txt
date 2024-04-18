@@ -1,0 +1,147 @@
+Running `target/debug/ford`
+Response {
+    url: Url {
+        scheme: "https",
+        cannot_be_a_base: false,
+        username: "",
+        password: None,
+        host: Some(
+            Domain(
+                "www.espn.com",
+            ),
+        ),
+        port: None,
+        path: "/mens-college-basketball/scoreboard/_/date/20231215",
+        query: None,
+        fragment: None,
+    },
+    status: 200,
+    headers: {
+        "content-type": "text/html; charset=utf-8",
+        "transfer-encoding": "chunked",
+        "connection": "keep-alive",
+        "date": "Fri, 15 Dec 2023 14:47:57 GMT",
+        "server": "nginx/1.18.0 (Ubuntu)",
+        "expires": "Fri, 15 Dec 2023 14:48:27 GMT",
+        "last-modified": "Fri, 15 Dec 2023 14:48:27 GMT",
+        "content-security-policy": "frame-ancestors 'self' asia.espn.com:* asia.espnqa.com:* *.espn.com:* *.espnqa.com:* *.espnsb.com:* *.espnsb.com *.espn.co.uk *.espndeportes.espn.com *.espn.com.br *.espn.com.mx *.espn.com.ve *.espn.com.ar *.espn.com.co *.espnfc.com.au *.espn.com.au *.espn.in *.espn.com.sg *.espn.cl *.espn.ph *.espn.ph:* *.espn.com.pe *.espn.com.gt *.espn.com.do *.espn.com.ec *.espn.com.uy *.espn.com.pa *.espn.co.cr qa.abcnews.go.com preview.abcnews.go.com abc7ny.com abc7.com *.abcotvssb.com preview.goodmorningamerica.com http://*.espnqa.com:* http://*.espn.com:* *.abcotvssb.com *.abcnews.go.com *.abcnews.go.com:* http://*.abcnews.go.com:* abc30.com abc7news.com abc13.com abc7chicago.com 6abc.com abc11.com *.goodmorningamerica.com qa.abc7.com qa.abc30.com qa.abc7news.com qa.abc13.com qa.abc7chicago.com qa.6abc.com qa.abc7ny.com qa.abc11.com *.abcnews.go.com:* abcnews.go.com qa.secsports.com *.secsports.com https://*.espn.com:* *.espnqa.com:*",
+        "via": "1.1 varnish (Varnish/6.0), 1.1 5301cc544de32ec737d1069c11f7df30.cloudfront.net (CloudFront)",
+        "vary": "Accept-Encoding",
+        "accept-ranges": "bytes",
+        "set-cookie": "edition=espn-en-us; path=/; Expires=Fri, 22 Dec 2023 14:47:57 GMT;",
+        "set-cookie": "connectionspeed=full; path=/; Expires=Fri, 22 Dec 2023 14:47:57 GMT;",
+        "set-cookie": "edition-view=espn-en-us; path=/; Expires=Fri, 22 Dec 2023 14:47:57 GMT;",
+        "set-cookie": "country=us; path=/;",
+        "set-cookie": "region=ccpa; path=/; Expires=Fri, 22 Dec 2023 14:47:57 GMT;",
+        "set-cookie": "_dcf=1; path=/; Expires=Fri, 22 Dec 2023 14:47:57 GMT;",
+        "set-cookie": "SWID=19DA1531-8EC7-4F9D-CF4B-29A0FC9FCB2B; path=/; Expires=Tue, 15 Dec 2043 14:47:57 GMT; domain=espn.com;",
+        "cache-control": "max-age=0, must-revalidate",
+        "x-cache": "Miss from cloudfront",
+        "x-amz-cf-pop": "EWR53-C2",
+        "x-amz-cf-id": "jPv9qIvNMsdxRVNIS6h25UQ_IlWIZGZaZS9xDgfF8VnqYm5ySa6DPA==",
+    },
+}
+
+
+
+impl Solution {
+    pub fn find_median_sorted_arrays(nums1: Vec<i32>, nums2: Vec<i32>) -> f64 {
+        println!("nums1 {:?}", &nums1);
+        println!("nums2 {:?}", &nums2);
+        let l1 = nums1.len();
+        let l2 = nums2.len();
+        let t = (l1 + l2) as f64;
+        let threshold = ((t - 2 as f64)/2.0).ceil() as i32;
+        let threshold_high = ((t + 2 as f64)/2.0).floor() as i32;
+        println!("threshold {:?}", &threshold);
+        println!("threshold_high {:?}", &threshold_high);
+
+        let (nums, other_nums) = if l1 >= l2 {(nums1, nums2)} else {(nums2, nums1)};
+        let l =  if l1 >= l2 {l1} else {l2};
+        let other_l =  if l1 >= l2 {l2} else {l1};
+
+        let mut num_below = 0;
+        let mut num_above = 0;
+
+        while num_below < threshold || num_above < threshold {
+            let idx = (((l as f64) - 1.0)/2.0).floor() as usize;
+            let val = nums[idx];
+            let num_below_val = idx;
+            let num_above_val = l - 1 - idx;
+            println!("idx {:?}", &idx);
+            println!("val {:?}", &val);
+            println!("num_below_val {:?}", &num_below_val);
+            println!("num_above_val {:?}", &num_above_val);
+            // t = 11, 5 each side
+            // median if other has 2 below and 1 above
+            let num_above_other = threshold - num_above_val as i32;
+            let num_below_other = threshold - num_below_val as i32;
+            println!("num_below_other {:?}", &num_below_other);
+            println!("num_above_other {:?}", &num_above_other);
+
+            let other_idx_high = other_l as i32 - num_above_other - 1;
+            let other_idx_low = 0 as i32 + num_below_other;
+
+            println!("other_idx_high {:?}", &other_idx_high);
+            println!("other_idx_low {:?}", &other_idx_low);
+
+            let other_m = if other_idx_high == other_idx_low {other_nums[other_idx_high as usize] as f64} else {(other_nums[other_idx_high as usize] as f64 + other_nums[other_idx_low as usize] as f64)/2.0};
+            println!("other_m {:?}", &other_m);
+
+            // if other_m == val {}
+
+            // for guess to be median ->
+
+            // odd -> exact num -> floor(t/2) >=, floor(t/2) <=
+            // even split between 2 -> t/2 >=, t/2 <=, no fraction
+
+
+            return 0.0.into();
+        }
+
+
+        // [1, 1, 2, 5, 6, 6, 7, 8, 9, 10]
+        // [1,3,4, 7]
+        // [1, 1, 1, 2, 3, 4, 5, 6, 6, 7, 7, 8, 9, 10]
+
+
+
+        // let mut min_bound = Option::<i32>::None;
+        // let mut max_bound = Option::<i32>::None;
+
+
+
+
+
+
+        // let median_idx = (t as f64 - 1.0) / 2.0;
+        // let m1 = (l1 as f64 - 1.0) / 2.0;
+        // let m2 = (l2 as f64 - 1.0) / 2.0;
+
+        // let mut median_1: f64;
+        // if m1.fract() == 0.0 {
+        //     median_1 = nums1[m1 as usize] as f64;
+        // } else {
+        //     median_1 = (nums1[(m1 - 0.5) as usize] + nums1[(m1 + 0.5) as usize]) as f64 / 2.0;
+        // }
+        
+        // let mut median_2: f64;
+        // if m2.fract() == 0.0 {
+        //     median_2 = nums2[m2 as usize] as f64;
+        // } else {
+        //     median_2 = (nums2[(m2 - 0.5) as usize] + nums2[(m2 + 0.5) as usize]) as f64 / 2.0;
+        // }
+
+        // if median_1 == median_2 {
+        //     return median_1;
+        // }
+
+        // println!("{:?}", median_1);
+        // println!("{:?}", median_2);
+
+
+        // median_idx.into()
+
+        0.0.into()
+    }
+}

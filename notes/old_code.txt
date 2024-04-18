@@ -1,0 +1,48 @@
+
+    for box_response in responses {
+        let box_doc = Html::parse_document(&box_response);
+        let script_sel = Selector::parse("script").unwrap();
+        let scripts = box_doc.select(&script_sel);
+        let script = scripts.into_iter().find(|s| {
+            let h: String = s.html();
+            h.contains("__espnfitt__")
+        }).unwrap();
+
+        let s = script.html();
+        let start = s.find("window['__espnfitt__']").unwrap() + 23;
+        let end = s.len() - 10;
+        let j = &s[start..end];
+        let b: Value = serde_json::from_str(j).unwrap();
+        let halves = &b["page"]["content"]["gamepackage"]["pbp"]["playGrps"].as_array().unwrap();
+        for plays in halves.into_iter() {
+            for play in plays.as_array().unwrap().into_iter() {
+                let ok = play["text"].as_str().unwrap_or_default().replace("St. ", "St ");
+                let sentences = ok.split('.').filter(|s| s.len() != 0);
+                for _sentence in sentences.into_iter() {
+                    // println!("{:#?}", sentence);
+                }
+            }
+        }
+
+
+
+pub async fn test () -> () {
+    let game_id = 9;
+    let over_under = 52;
+    let over_odds = 87;
+    let mut q = String::new();
+    let pool = sqlx::postgres::PgPoolOptions::new()
+    .max_connections(5)
+    .connect("postgres://postgres:postgres@localhost:5330/ford").await.unwrap();
+    let x = upsert! (
+        q;
+        &pool;
+        "espn.games"
+        game_id, over_under, over_odds; 
+        conflict("game_id", "over_under")
+    );
+
+    let x = x.await;
+    println!("{:?}", &x);
+}
+
